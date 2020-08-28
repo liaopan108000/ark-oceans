@@ -11,6 +11,7 @@ public class IndexController {
 
     @RequestMapping(value = "/index.do")
     public String index() {
+        //跳转login.html
         return "login";
     }
 }
