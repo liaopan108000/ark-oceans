@@ -1,0 +1,123 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="oceans.placeOnGoods.mapper.GoodsMapper">
+    <!--后台商品列表分页-->
+    <select id="findGoodsPage" parameterType="oceans.util.PageBean" resultType="oceans.placeOnGoods.model.Goods">
+        SELECT
+        id,name,price,unit,storeId,code,number,status,categoryId,slogan,introduce,isDelete
+        FROM goods
+        WHERE isDelete = 2
+        <if test="bean.categoryId != null and bean.categoryId != ''">
+            AND categoryId=#{bean.categoryId}
+        </if>
+        <if test="bean.id != null and bean.id != ''">
+            AND id=#{bean.id}
+        </if>
+        <if test="bean.name != null and bean.name != ''">
+            AND name LIKE '%${bean.name}%'
+        </if>
+        <if test="bean.storeId != null and bean.storeId != ''">
+            AND storeId=#{bean.storeId}
+        </if>
+        <if test="bean.code != null and bean.code != ''">
+            AND code=#{bean.code}
+        </if>
+        <if test="bean.status != null and bean.status != ''">
+            AND status=#{bean.status}
+        </if>
+        ORDER BY createTime DESC
+        LIMIT ${pageNo}, ${pageSize}
+    </select>
+    <select id="findGoodsPageCount" resultType="java.lang.Integer" parameterType="oceans.util.PageBean">
+        SELECT count(1) FROM goods g
+        WHERE isDelete = 2
+        <if test="bean.categoryId != null and bean.categoryId != ''">
+            AND categoryId=#{bean.categoryId}
+        </if>
+        <if test="bean.id != null and bean.id != ''">
+            AND id=#{bean.id}
+        </if>
+        <if test="bean.name != null and bean.name != ''">
+            AND name LIKE '%${bean.name}%'
+        </if>
+        <if test="bean.storeId != null and bean.storeId != ''">
+            AND storeId=#{bean.storeId}
+        </if>
+        <if test="bean.code != null and bean.code != ''">
+            AND code=#{bean.code}
+        </if>
+        <if test="bean.status != null and bean.status != ''">
+            AND status=#{bean.status}
+        </if>
+    </select>
+    <!--后台商品管理-->
+    <select id="selectGoods" parameterType="oceans.placeOnGoods.model.Goods" resultType="oceans.placeOnGoods.model.Goods">
+        SELECT
+        id,name,price,unit,number,slogan,introduce,code,categoryId,storeId,status,isDelete
+        FROM goods g
+        WHERE isDelete = 2
+        <if test="categoryId != null and categoryId !=''">
+            AND categoryId=#{categoryId}
+        </if>
+        <if test="id != null and id !=''">
+            AND id=#{id}
+        </if>
+        <if test="status != null and status !=''">
+            AND status=#{status}
+        </if>
+        <if test="name != null and name != ''">
+            AND name LIKE '%${name}%'
+        </if>
+        <if test="storeId != null and storeId != ''">
+            AND storeId=#{storeId}
+        </if>
+        <if test="code != null and code != ''">
+            AND code=#{code}
+        </if>
+    </select>
+    <update id="deleteGoods" parameterType="java.lang.Long">
+        update goods SET isDelete = 1 WHERE id = #{id}
+    </update>
+    <update id="updateGoods" parameterType="oceans.placeOnGoods.model.Goods">
+        update goods
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name != null and name !=''">name = #{name},</if>
+            <if test="code != null and code !=''">code = #{code},</if>
+            <if test="categoryId != null">categoryId = #{categoryId},</if>
+            <if test="storeId != null">storeId = #{storeId},</if>
+            <if test="slogan != null">slogan = #{slogan},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="unit != null and unit !=''">unit = #{unit},</if>
+            <if test="number != null">number = #{number},</if>
+            <if test="sold != null">sold = #{sold},</if>
+            <if test="introduce != null and introduce !=''">introduce = #{introduce},</if>
+            <if test="isDelete != null">isDelete = #{isDelete},</if>
+            <if test="createTime != null">createTime = #{createTime},</if>
+            <if test="updateTime != null">updateTime = #{updateTime},</if>
+            <if test="createBy != null and createBy !=''">createBy = #{createBy},</if>
+            <if test="updateBy != null and updateBy !=''">updateBy = #{updateBy},</if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+    <!--新增商品返回主键ID-->
+    <insert id="insertGoods" parameterType="oceans.placeOnGoods.model.Goods">
+        INSERT INTO goods
+        (name,code,categoryId,storeId,slogan,price,unit,number,sold,introduce,
+        isDelete,createTime,createBy,updateTime,updateBy,status)
+        VALUES
+        (#{name},#{code},#{categoryId},#{storeId},#{slogan},#{price},#{unit},#{number},#{sold},#{introduce},
+        #{isDelete},#{createTime},#{createBy},#{updateTime},#{updateBy},#{status})
+        /*关键步骤-服务层用model-getId();*/
+        <selectKey resultType="java.lang.Long" keyProperty="id">
+            SELECT @@IDENTITY AS ID
+        </selectKey>
+    </insert>
+
+    <update id="deleteBatch" parameterType="oceans.placeOnGoods.model.Goods">
+        <foreach item="batch" index="index" collection="batch" separator=";">
+            update goods SET isDelete = 1
+            WHERE id=#{batch.id}
+        </foreach>
+    </update>
+
+</mapper>
