@@ -1,0 +1,11 @@
+#spring:
+#  cloud:
+#    config:
+#      label: master
+#      #      uri: http://127.0.0.1:8005
+#      name: member-soa
+#      #      profile: dev
+#      discovery:
+#        enabled: true
+#        service-id: config-soa
+#      fail-fast: true

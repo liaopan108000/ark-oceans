@@ -1,0 +1,29 @@
+#spring:
+#  application:
+#    name: config-soa
+#  cloud:
+#    consul:
+#      host: 127.0.0.1
+#      port: 8500
+#      discovery:
+#        instance-id: ${spring.application.name}:${server.port}
+#        deregister: false
+#    config:
+#      server:
+#        git:
+#          uri: https://git.crocusi.com/....../xx.git
+#          search-paths: config-file
+#          username: liaopan
+#          password: 960410
+#server:
+#  port: 8101
+#management:
+#  endpoint:
+#    health:
+#      show-details: always
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"
+#logging:
+#  config: classpath:logback-spring.xml
