@@ -19,8 +19,6 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>0.4.14</version>
                 <configuration>
-                    <dockerHost>${my.dockerHost}</dockerHost>
-                    <dockerCertPath>${my.dockerCertPath}</dockerCertPath>
                     <imageName>${project.name}:${project.version}</imageName>
                     <dockerDirectory>src/main/docker</dockerDirectory>
                     <resources>
