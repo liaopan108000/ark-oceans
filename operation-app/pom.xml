@@ -75,7 +75,7 @@
                 <configuration>
                     <fork>true</fork>
                     <!-- 指定 Main 方法所在类 -->
-                    <mainClass>com.smartParking.OperationAppApplication</mainClass>
+                    <mainClass>oceans.OperationAppApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>
